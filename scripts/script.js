@@ -52,18 +52,26 @@ three.addEventListener('click', (e) => {
         };
 
         let pushArr = (arr) => {
-            let steps = num - 1;
+            let step = num - 1;
             let x = 0;
             let y = 0;
 
             for(let i = 1; i <= Math.pow(num, 2); i++) {
                 arr[x][y] = i;
+                
+                if(x == step && y == num - step - 1) {
+                    step = step - 1;
+                };
 
-                if(x == steps && y == num - steps - 1) steps--;
-                if((y >= x && y < steps) || (x - 1 == y && x == num - steps - 1)) y++;
-                else if(y <= x && y >= num - steps) y--;
-                else if(x <= y && x < steps) x++;
-                else if(x >= y && x >= num - steps) x--;
+                if((y >= x && y < step) || (x - 1 == y && x == num - step - 1)) {
+                    y = y + 1;
+                } else if(y <= x && y >= num - step) {
+                    y = y - 1;
+                } else if(x <= y && x < step) {
+                    x = x + 1;
+                } else if(x >= y && x >= num - step) {
+                    x = x - 1;
+                };
             };
 
             return arr;
