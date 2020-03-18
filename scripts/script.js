@@ -47,30 +47,119 @@ three.addEventListener('click', (e) => {
         for (let i = 0; i < num; i++){
             arr[i] = [];
             for (var j = 0; j < num; j++) {
-                arr[i][j] = 1;
+                arr[i][j] = 0;
             };
         };
 
         let pushArr = (arr) => {
-            let step = num - 1;
+            let long = Math.pow(num, 2);
+            let step = 'right';
             let x = 0;
             let y = 0;
 
-            for(let i = 1; i <= Math.pow(num, 2); i++) {
+            let getLast = (val) => {
+                switch (val) {
+                    case 'left':
+                        return 'up';
+                    
+                    case 'right':
+                        return 'down';
+                    
+                    case 'up':
+                        return 'right';
+                    
+                    case 'down':
+                        return 'left';
+                };
+            };
+
+            for(let i = 1; i <= long; i++) {
                 arr[x][y] = i;
                 
-                if(x == step && y == num - step - 1) {
-                    step = step - 1;
-                };
+                switch (step) {
+                    case 'left':
+                        if(y < num && y >= 0) {
+                            if(y == num - 1 || y == 0) {
+                                step = getLast(step);
+                                x = x - 1;
+                                break;
+                            } else {
+                                if(arr[x][y - 1] == 0) {
+                                    y = y - 1;
+                                    break;
+                                } else {
+                                    step = getLast(step);
+                                    x = x - 1;
+                                    break;
+                                };
+                            };
+                        } else {
+                            step = getLast(step);
+                            break;
+                        };
 
-                if((y >= x && y < step) || (x - 1 == y && x == num - step - 1)) {
-                    y = y + 1;
-                } else if(y <= x && y >= num - step) {
-                    y = y - 1;
-                } else if(x <= y && x < step) {
-                    x = x + 1;
-                } else if(x >= y && x >= num - step) {
-                    x = x - 1;
+                    case 'right':
+                        if(y < num && y >= 0) {
+                            if(y == num - 1) {
+                                step = getLast(step);
+                                x = x + 1;
+                                break;
+                            } else {
+                                if(arr[x][y + 1] == 0) {
+                                    y = y + 1;
+                                    break;
+                                } else {
+                                    step = getLast(step);
+                                    x = x + 1;
+                                    break;
+                                };
+                            };
+                        } else {
+                            step = getLast(step);
+                            break;
+                        };
+
+                    case 'up':
+                        if(x < num && x >= 0) {
+                            if(x == num - 1) {
+                                step = getLast(step);
+                                y = y + 1;
+                                break;
+                            } else {
+                                if(arr[x - 1][y] == 0) {
+                                    x = x - 1;
+                                    break;
+                                } else {
+                                    step = getLast(step);
+                                    y = y + 1;
+                                    break;
+                                };
+                            };  
+                        } else {
+                            step = getLast(step);
+                            break;
+                        };
+
+                    case 'down':
+                        if(x < num && x >= 0) {
+                            if(x == num - 1) {
+                                step = getLast(step);
+                                y = y - 1;
+                                break;
+                            } else {
+                                if(arr[x + 1][y] == 0) {
+                                    x = x + 1;
+                                    break;
+                                } else {
+                                    step = getLast(step);
+                                    y = y - 1;
+                                    break;
+                                };
+                            };
+                        } else {
+                            step = getLast(step);
+                            break;
+                        };
                 };
             };
 
@@ -82,3 +171,18 @@ three.addEventListener('click', (e) => {
 
     console.log(matrix(num));
 });
+
+
+// if(x == step && y == num - step - 1) { //--------------------------------------- Так выглядит логика основного цикла нормального человека
+//     step = step - 1;
+// };
+
+// if((y >= x && y < step) || (x - 1 == y && x == num - step - 1)) {
+//     y = y + 1;
+// } else if(y <= x && y >= num - step) {
+//     y = y - 1;
+// } else if(x <= y && x < step) {
+//     x = x + 1;
+// } else if(x >= y && x >= num - step) {
+//     x = x - 1;
+// };
